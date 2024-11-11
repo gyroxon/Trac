@@ -1,0 +1,39 @@
+restart;    #01.01.2021 by gyroxon
+
+with(plots):
+with(plottools):
+
+A := 3:
+x := A*ln(tan(t/2)) + A*cos(t):
+y := A*sin(t):
+N := 50:
+
+t1 := evalf(0):
+t2 := evalf(Pi):
+
+tract := plot([x, y, t = t1 .. t2], -10 .. 10, 0 .. 4, color = maroon, thickness = 2, legend = "трактриса", scaling = constrained):
+
+shaft:=proc(T::float)
+    local X, Y, X0, l;
+    X := eval(x, t = T):
+    Y := eval(y, t = T):
+    X0 := X - A*cos(T):
+    l := arrow([X0, 0], [X, Y], 0.1, 0.2, 0.07, color = sienna, legend = "стержень"):
+    display([l], scaling = constrained);
+end proc;
+
+traceshaft:=proc(t)
+    shaft(t):
+end proc;
+
+traceshaft(1.0); #test shaft
+
+V := [seq(t1 .. t2, (t2 - t1)/N)];
+
+animate(traceshaft, [T], T = V, trace = 26, background = tract, view = [-10 .. 10, 0 .. 4], tickmarks = [[-9 = "-3A", -6 = "-2A", -3 = "-A", 3 = "3A", 6 = "2A", 9 = "3A"], [3 = "A"]], scaling = constrained, title = "Трактриса (A - длина стержня)");
+
+
+
+
+
+
